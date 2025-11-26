@@ -147,6 +147,7 @@ LANGUAGE = 'es'
 
 def t(key):
     """Función para obtener traducciones"""
+    global LANGUAGE
     return TRANSLATIONS[LANGUAGE].get(key, key)
 
 def get_banner():
@@ -314,21 +315,21 @@ def ejecutar_fuerza_bruta(login_url, username, ruta_wordlist, redirect_url=None)
             break
             
         # Controlar el número de hilos activos
-        while len([t for t in hilos_activos if t.is_alive()]) >= max_hilos:
+        while len([hilo for hilo in hilos_activos if hilo.is_alive()]) >= max_hilos:
             time.sleep(0.1)
-            hilos_activos = [t for t in hilos_activos if t.is_alive()]
+            hilos_activos = [hilo for hilo in hilos_activos if hilo.is_alive()]
             
         # Crear nuevo hilo
-        t = Thread(target=worker, args=(password,))
-        t.start()
-        hilos_activos.append(t)
+        hilo = Thread(target=worker, args=(password,))
+        hilo.start()
+        hilos_activos.append(hilo)
         
         # Pequeña pausa entre intentos para evitar bloqueo
         time.sleep(0.2)
     
     # Esperar a que todos los hilos terminen
-    for t in hilos_activos:
-        t.join()
+    for hilo in hilos_activos:
+        hilo.join()
     
     if not password_encontrada:
         print(f"\n{RED}[X] {t('no_password_found')}{ENDC}")
@@ -350,21 +351,21 @@ def ejecutar_fuerza_bruta_xmlrpc_multicall(base_url, username, ruta_wordlist):
     
     # Verificar si el endpoint existe
     try:
-        print(f"{YELLOW}[*] Verificando si XML-RPC está habilitado en: {xmlrpc_url}{ENDC}")
+        print(f"{YELLOW}[*] {t('checking_xmlrpc')} {xmlrpc_url}{ENDC}")
         response = requests.get(xmlrpc_url, timeout=10, verify=False)
         
         if response.status_code == 405 or ('XML-RPC' in response.text or '<methodResponse>' in response.text):
-            print(f"{GREEN}[✓] XML-RPC detectado correctamente{ENDC}")
+            print(f"{GREEN}[✓] {t('xmlrpc_detected')}{ENDC}")
         else:
-            print(f"{RED}[X] XML-RPC no parece estar habilitado o accesible (Código {response.status_code}){ENDC}")
+            print(f"{RED}[X] {t('xmlrpc_not_enabled')} (Código {response.status_code}){ENDC}")
             return False
     except Exception as e:
-        print(f"{RED}[X] Error al conectar a XML-RPC: {str(e)}{ENDC}")
+        print(f"{RED}[X] {t('xmlrpc_connection_error')} {str(e)}{ENDC}")
         return False
     
     # Verificar si el archivo de wordlist existe y es legible
     if not os.path.isfile(ruta_wordlist) or not os.access(ruta_wordlist, os.R_OK):
-        print(f"{RED}[X] El archivo de contraseñas no existe o no es legible{ENDC}")
+        print(f"{RED}[X] {t('wordlist_not_found')}{ENDC}")
         return False
         
     # Leer el archivo de contraseñas
@@ -372,11 +373,11 @@ def ejecutar_fuerza_bruta_xmlrpc_multicall(base_url, username, ruta_wordlist):
         with open(ruta_wordlist, 'r', encoding='utf-8', errors='ignore') as f:
             wordlist = [line.strip() for line in f if line.strip()]
     except Exception as e:
-        print(f"{RED}[X] Error al leer el archivo de contraseñas: {str(e)}{ENDC}")
+        print(f"{RED}[X] {t('wordlist_read_error')} {str(e)}{ENDC}")
         return False
     
     total_passwords = len(wordlist)
-    print(f"{YELLOW}[*] Contraseñas cargadas: {total_passwords}{ENDC}")
+    print(f"{YELLOW}[*] {t('passwords_loaded')}: {total_passwords}{ENDC}")
     
     # Preparar los encabezados
     headers = {
@@ -572,21 +573,21 @@ def ejecutar_fuerza_bruta_xmlrpc(base_url, username, ruta_wordlist):
             break
             
         # Controlar el número de hilos activos
-        while len([t for t in hilos_activos if t.is_alive()]) >= max_hilos:
+        while len([hilo for hilo in hilos_activos if hilo.is_alive()]) >= max_hilos:
             time.sleep(0.1)
-            hilos_activos = [t for t in hilos_activos if t.is_alive()]
+            hilos_activos = [hilo for hilo in hilos_activos if hilo.is_alive()]
             
         # Crear nuevo hilo
-        t = Thread(target=worker_xmlrpc, args=(password,))
-        t.start()
-        hilos_activos.append(t)
+        hilo = Thread(target=worker_xmlrpc, args=(password,))
+        hilo.start()
+        hilos_activos.append(hilo)
         
         # Pequeña pausa entre intentos para evitar bloqueo
         time.sleep(0.2)
     
     # Esperar a que todos los hilos terminen
-    for t in hilos_activos:
-        t.join()
+    for hilo in hilos_activos:
+        hilo.join()
     
     if not password_encontrada:
         print(f"\n{RED}[X] {t('no_password_found')}{ENDC}")
