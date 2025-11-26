@@ -1,6 +1,7 @@
 # GnosisWP
 
 ⚠️ **Uso exclusivo con permiso en sistemas propios o autorizados. Solo para fines educativos.**
+
 Script educativo para pruebas de fuerza bruta en WordPress. Herramienta diseñada para evaluaciones de seguridad y pentesting autorizado. este script fue realizado para mostrar lo vulnerable que puede ser un sitio web wordpress con las configuraciones por defecto sin protecciones adicionales, esto para que si tienes wordpress tomes conciencia de lo facil que es hacer un ataque de fuerza fruta de 2 formas diferentes.
 
 ## Descripción
@@ -212,4 +213,5 @@ MIT License - Ver LICENSE para detalles
 
 
 Este proyecto es solo para fines educativos y de investigación. El autor no es responsable del mal uso de esta herramienta. Úsala responsablemente y solo en sistemas autorizados.
+
 
