@@ -77,7 +77,7 @@ urllib3
 ## Uso
 
 ```bash
-python WPBruteFuerza.py
+python gnosiswp-fuerza-bruta.py
 ```
 
 ### Pasos:
@@ -212,3 +212,4 @@ MIT License - Ver LICENSE para detalles
 
 
 Este proyecto es solo para fines educativos y de investigación. El autor no es responsable del mal uso de esta herramienta. Úsala responsablemente y solo en sistemas autorizados.
+
